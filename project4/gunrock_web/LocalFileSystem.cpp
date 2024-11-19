@@ -25,18 +25,28 @@ void LocalFileSystem::readInodeBitmap(super_t *super, unsigned char *inodeBitmap
 {
   for (int i = 0; i < super->inode_bitmap_len; i++)
   {
-    vector<unsigned char> buffer(UFS_BLOCK_SIZE);
-    this->disk->readBlock(super->inode_bitmap_start + i, buffer.data());
-    memcpy(inodeBitmap + i * UFS_BLOCK_SIZE, buffer.data(), UFS_BLOCK_SIZE);
+    int InodeBitMapBlockNumber = super->inode_bitmap_addr + i;
+    // offset = i * UFS_BLOCK_SIZE
+    this->disk->readBlock(InodeBitMapBlockNumber, inodeBitmap + i * UFS_BLOCK_SIZE);
   }
 }
 
 void LocalFileSystem::writeInodeBitmap(super_t *super, unsigned char *inodeBitmap)
 {
+  for (int i = 0; i < super->inode_bitmap_len; i++)
+  {
+    int InodeBitMapBlockNumber = super->inode_bitmap_addr + i;
+    this->disk->writeBlock(InodeBitMapBlockNumber, inodeBitmap + i * UFS_BLOCK_SIZE);
+  }
 }
 
 void LocalFileSystem::readDataBitmap(super_t *super, unsigned char *dataBitmap)
 {
+  for (int i = 0; i < super->data_bitmap_len; i++)
+  {
+    int DataBitMapBlockNumber = super->data_bitmap_addr + i;
+    this->disk->readBlock(DataBitMapBlockNumber, dataBitmap + i * UFS_BLOCK_SIZE);
+  }
 }
 
 void LocalFileSystem::writeDataBitmap(super_t *super, unsigned char *dataBitmap)
