@@ -128,6 +128,7 @@ int main(int argc, char *argv[])
         }
     }
 
+    free(empty_buffer);
     //
     // need to allocate first inode in inode bitmap
     //
