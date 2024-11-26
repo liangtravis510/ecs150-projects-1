@@ -41,7 +41,7 @@ int main(int argc, char *argv[])
   int srcFd = open(srcFile.c_str(), O_RDONLY);
   if (srcFd < 0)
   {
-    cerr << "Could not write to dst_file" << endl;
+    cerr << "Failed to open file" << endl;
     return 1;
   }
 
@@ -56,7 +56,7 @@ int main(int argc, char *argv[])
 
   if (bytesRead < 0)
   {
-    cerr << "Could not write to dst_file" << endl;
+    cerr << "Read error" << endl;
     return 1;
   }
 
